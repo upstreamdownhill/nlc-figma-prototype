@@ -121,6 +121,36 @@
     .btn:hover:not(:disabled) { background: #0d8ee6; }
     .btn:disabled { background: #b8d4ec; cursor: not-allowed; }
 
+    .btn-secondary {
+      display: block;
+      width: 100%;
+      padding: 9px;
+      background: #fff;
+      color: #18a0fb;
+      border: 1.5px solid #18a0fb;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+      margin-bottom: 10px;
+      letter-spacing: 0.2px;
+    }
+    .btn-secondary:hover { background: #f0f8ff; }
+    .btn-secondary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .server-banner {
+      background: #f0f8ff;
+      border: 1px solid #b0d6f7;
+      border-radius: 6px;
+      padding: 8px 10px;
+      font-size: 11px;
+      color: #1a6ea8;
+      margin-bottom: 14px;
+      display: none;
+    }
+    .server-banner.visible { display: block; }
+
     /* ── Status ── */
     .status {
       margin-top: 12px;
@@ -247,6 +277,8 @@
     </div>
   </div>
 
+  <div class="server-banner" id="serverBanner"></div>
+  <button class="btn-secondary" id="loadBtn" onclick="loadFromServer()">⬇ Load from web form</button>
   <button class="btn" id="createBtn" onclick="submit()">Create Instagram Ad</button>
   <div class="status" id="status"></div>
 
@@ -313,6 +345,77 @@
     });
   }
 
+  // ── Load from web form server ─────────────────────────────────────────────
+
+  async function loadFromServer() {
+    const btn    = document.getElementById('loadBtn');
+    const banner = document.getElementById('serverBanner');
+    btn.disabled = true;
+    btn.textContent = '⬇ Connecting…';
+
+    try {
+      const res  = await fetch('http://localhost:3000/api/brief');
+      const data = await res.json();
+
+      if (!data.available) {
+        banner.textContent = 'No brief waiting on the server yet. Submit the web form first.';
+        banner.className = 'server-banner visible';
+        btn.disabled = false;
+        btn.textContent = '⬇ Load from web form';
+        return;
+      }
+
+      const b = data.brief;
+
+      // Populate text fields
+      document.getElementById('campaignName').value  = b.campaignName  || '';
+      document.getElementById('brandName').value     = b.brandName     || '';
+      document.getElementById('primaryHex').value    = b.primaryColor  || '#000000';
+      document.getElementById('secondaryHex').value  = b.secondaryColor|| '#666666';
+      document.getElementById('primaryPicker').value   = b.primaryColor  || '#000000';
+      document.getElementById('secondaryPicker').value = b.secondaryColor|| '#666666';
+      document.getElementById('fontFamily').value    = b.fontFamily    || 'Inter';
+      document.getElementById('headline').value      = b.headline      || '';
+      document.getElementById('bodyText').value      = b.bodyText      || '';
+      document.getElementById('ctaText').value       = b.ctaText       || '';
+
+      // Stash image data for use at submit time
+      window._serverBackgroundData = b.backgroundData || null;
+      window._serverLogoData       = b.logoData       || null;
+
+      // Show image previews
+      if (b.backgroundData) {
+        const blob = new Blob([new Uint8Array(b.backgroundData)]);
+        const el = document.getElementById('bgPreview');
+        el.src = URL.createObjectURL(blob);
+        el.style.display = 'block';
+        document.getElementById('bgName').textContent = 'Loaded from server';
+        document.getElementById('bgName').style.display = 'block';
+      }
+      if (b.logoData) {
+        const blob = new Blob([new Uint8Array(b.logoData)]);
+        const el = document.getElementById('logoPreview');
+        el.src = URL.createObjectURL(blob);
+        el.style.display = 'block';
+        document.getElementById('logoName').textContent = 'Loaded from server';
+        document.getElementById('logoName').style.display = 'block';
+      }
+
+      // Clear the brief from the server so it isn't applied twice
+      await fetch('http://localhost:3000/api/brief', { method: 'DELETE' });
+
+      banner.textContent = '✓ Brief loaded from web form — review and click Create.';
+      banner.className = 'server-banner visible';
+
+    } catch (_) {
+      banner.textContent = 'Could not reach server. Run npm start in the project folder.';
+      banner.className = 'server-banner visible';
+    }
+
+    btn.disabled = false;
+    btn.textContent = '⬇ Load from web form';
+  }
+
   // ── Submit ────────────────────────────────────────────────────────────────
 
   async function submit() {
@@ -326,10 +429,12 @@
     btn.disabled = true;
     showStatus('progress', 'Reading files…');
 
-    const [backgroundData, logoData] = await Promise.all([
-      readFile(document.getElementById('bgFile').files[0]   || null),
-      readFile(document.getElementById('logoFile').files[0] || null),
-    ]);
+    const bgFileData   = await readFile(document.getElementById('bgFile').files[0]   || null);
+    const logoFileData = await readFile(document.getElementById('logoFile').files[0] || null);
+
+    // Prefer a freshly-picked file; fall back to what was loaded from the server
+    const backgroundData = bgFileData   || window._serverBackgroundData || null;
+    const logoData       = logoFileData || window._serverLogoData       || null;
 
     parent.postMessage({
       pluginMessage: {
