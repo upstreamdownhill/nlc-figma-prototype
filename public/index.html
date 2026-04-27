@@ -94,9 +94,23 @@
 
     /* ── Page layout ─────────────────────────────────────────────────────── */
     .page {
-      max-width: 560px;
+      max-width: 960px;
       margin: 0 auto;
       padding: 0 20px 60px;
+    }
+
+    /* ── Two-column card layout ───────────────────────────────────────────── */
+    .cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      align-items: start;
+      margin-bottom: 12px;
+    }
+    .col {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
 
     .page-intro {
@@ -314,6 +328,10 @@
     }
 
     /* ── Mobile ──────────────────────────────────────────────────────────── */
+    @media (max-width: 700px) {
+      .cols { grid-template-columns: 1fr; }
+    }
+
     @media (max-width: 480px) {
       .header { padding: 20px 16px 16px; }
       .logo { height: 28px; }
@@ -369,119 +387,129 @@
 
       <h2 class="section-heading">Instagram Ad Brief</h2>
 
-      <!-- Campaign -->
-      <div class="card">
-        <div class="card-title">Campaign</div>
-        <div class="row-2">
-          <div class="field">
-            <label>Campaign Name</label>
-            <input type="text" id="campaignName" name="campaignName" placeholder="Summer Sale 2025" required>
-          </div>
-          <div class="field">
-            <label>Brand Name</label>
-            <input type="text" id="brandName" name="brandName" placeholder="Acme Co" required>
-          </div>
-        </div>
-      </div>
+      <div class="cols">
 
-      <!-- Brand Identity -->
-      <div class="card">
-        <div class="card-title">Brand Identity</div>
+        <!-- Left column: Campaign + Brand Identity -->
+        <div class="col">
 
-        <div class="row-2">
-          <div class="field">
-            <label>Primary Color</label>
-            <div class="color-row">
-              <div class="color-swatch" id="primarySwatch">
-                <div class="color-swatch-preview" id="primarySwatchPreview" style="background:#000000"></div>
-                <input type="color" id="primaryPicker" value="#000000">
+          <div class="card">
+            <div class="card-title">Campaign</div>
+            <div class="row-2">
+              <div class="field">
+                <label>Campaign Name</label>
+                <input type="text" id="campaignName" name="campaignName" placeholder="Summer Sale 2025" required>
               </div>
-              <input type="text" id="primaryColor" name="primaryColor" value="#000000" maxlength="7" placeholder="#000000">
+              <div class="field">
+                <label>Brand Name</label>
+                <input type="text" id="brandName" name="brandName" placeholder="Acme Co" required>
+              </div>
             </div>
           </div>
-          <div class="field">
-            <label>Secondary Color</label>
-            <div class="color-row">
-              <div class="color-swatch" id="secondarySwatch">
-                <div class="color-swatch-preview" id="secondarySwatchPreview" style="background:#666666"></div>
-                <input type="color" id="secondaryPicker" value="#666666">
+
+          <div class="card">
+            <div class="card-title">Brand Identity</div>
+
+            <div class="row-2">
+              <div class="field">
+                <label>Primary Color</label>
+                <div class="color-row">
+                  <div class="color-swatch" id="primarySwatch">
+                    <div class="color-swatch-preview" id="primarySwatchPreview" style="background:#000000"></div>
+                    <input type="color" id="primaryPicker" value="#000000">
+                  </div>
+                  <input type="text" id="primaryColor" name="primaryColor" value="#000000" maxlength="7" placeholder="#000000">
+                </div>
               </div>
-              <input type="text" id="secondaryColor" name="secondaryColor" value="#666666" maxlength="7" placeholder="#666666">
+              <div class="field">
+                <label>Secondary Color</label>
+                <div class="color-row">
+                  <div class="color-swatch" id="secondarySwatch">
+                    <div class="color-swatch-preview" id="secondarySwatchPreview" style="background:#666666"></div>
+                    <input type="color" id="secondaryPicker" value="#666666">
+                  </div>
+                  <input type="text" id="secondaryColor" name="secondaryColor" value="#666666" maxlength="7" placeholder="#666666">
+                </div>
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Font Family</label>
+              <select id="fontFamily" name="fontFamily">
+                <option value="Inter">Inter</option>
+                <option value="Roboto">Roboto</option>
+                <option value="Open Sans">Open Sans</option>
+                <option value="Montserrat">Montserrat</option>
+                <option value="Poppins">Poppins</option>
+                <option value="Lato">Lato</option>
+                <option value="Raleway">Raleway</option>
+                <option value="Nunito">Nunito</option>
+                <option value="DM Sans">DM Sans</option>
+                <option value="Work Sans">Work Sans</option>
+                <option value="Plus Jakarta Sans">Plus Jakarta Sans</option>
+                <option value="Archivo">Archivo</option>
+                <option value="Playfair Display">Playfair Display</option>
+                <option value="Merriweather">Merriweather</option>
+                <option value="Georgia">Georgia</option>
+              </select>
             </div>
           </div>
-        </div>
 
-        <div class="field">
-          <label>Font Family</label>
-          <select id="fontFamily" name="fontFamily">
-            <option value="Inter">Inter</option>
-            <option value="Roboto">Roboto</option>
-            <option value="Open Sans">Open Sans</option>
-            <option value="Montserrat">Montserrat</option>
-            <option value="Poppins">Poppins</option>
-            <option value="Lato">Lato</option>
-            <option value="Raleway">Raleway</option>
-            <option value="Nunito">Nunito</option>
-            <option value="DM Sans">DM Sans</option>
-            <option value="Work Sans">Work Sans</option>
-            <option value="Plus Jakarta Sans">Plus Jakarta Sans</option>
-            <option value="Archivo">Archivo</option>
-            <option value="Playfair Display">Playfair Display</option>
-            <option value="Merriweather">Merriweather</option>
-            <option value="Georgia">Georgia</option>
-          </select>
-        </div>
-      </div>
+        </div><!-- /left col -->
 
-      <!-- Content -->
-      <div class="card">
-        <div class="card-title">Content</div>
+        <!-- Right column: Content + Assets -->
+        <div class="col">
 
-        <div class="field">
-          <label>Headline</label>
-          <input type="text" id="headline" name="headline" placeholder="Your compelling headline">
-        </div>
+          <div class="card">
+            <div class="card-title">Content</div>
 
-        <div class="field">
-          <label>Body Copy <span class="opt">(optional)</span></label>
-          <textarea id="bodyText" name="bodyText" placeholder="Supporting copy…"></textarea>
-        </div>
+            <div class="field">
+              <label>Headline</label>
+              <input type="text" id="headline" name="headline" placeholder="Your compelling headline">
+            </div>
 
-        <div class="field">
-          <label>CTA Text</label>
-          <input type="text" id="ctaText" name="ctaText" placeholder="Shop Now">
-        </div>
-      </div>
+            <div class="field">
+              <label>Body Copy <span class="opt">(optional)</span></label>
+              <textarea id="bodyText" name="bodyText" placeholder="Supporting copy…"></textarea>
+            </div>
 
-      <!-- Assets -->
-      <div class="card">
-        <div class="card-title">Assets</div>
-
-        <div class="field">
-          <label>Background Image</label>
-          <div class="upload-zone" id="bgZone">
-            <input type="file" id="backgroundFile" name="backgroundFile" accept="image/png,image/jpeg,image/gif,image/webp">
-            <div class="upload-icon">🖼</div>
-            <div class="upload-label">Click to upload background</div>
-            <div class="upload-hint">PNG, JPG, GIF — fills the full artboard</div>
-            <div class="upload-name" id="bgName" style="display:none"></div>
-            <img id="bgPreview" class="upload-preview" style="display:none" alt="">
+            <div class="field">
+              <label>CTA Text</label>
+              <input type="text" id="ctaText" name="ctaText" placeholder="Shop Now">
+            </div>
           </div>
-          <div class="field-note">GIF imports as static in Figma (first frame only)</div>
-        </div>
 
-        <div class="field">
-          <label>Logo</label>
-          <div class="upload-zone" id="logoZone">
-            <input type="file" id="logoFile" name="logoFile" accept="image/png,image/jpeg">
-            <div class="upload-icon">✦</div>
-            <div class="upload-label">Click to upload logo</div>
-            <div class="upload-hint">PNG or JPG</div>
-            <div class="upload-name" id="logoName" style="display:none"></div>
-            <img id="logoPreview" class="upload-preview" style="display:none" alt="">
+          <div class="card">
+            <div class="card-title">Assets</div>
+
+            <div class="field">
+              <label>Background Image</label>
+              <div class="upload-zone" id="bgZone">
+                <input type="file" id="backgroundFile" name="backgroundFile" accept="image/png,image/jpeg,image/gif,image/webp">
+                <div class="upload-icon">🖼</div>
+                <div class="upload-label">Click to upload background</div>
+                <div class="upload-hint">PNG, JPG, GIF — fills the full artboard</div>
+                <div class="upload-name" id="bgName" style="display:none"></div>
+                <img id="bgPreview" class="upload-preview" style="display:none" alt="">
+              </div>
+              <div class="field-note">GIF imports as static in Figma (first frame only)</div>
+            </div>
+
+            <div class="field">
+              <label>Logo</label>
+              <div class="upload-zone" id="logoZone">
+                <input type="file" id="logoFile" name="logoFile" accept="image/png,image/jpeg">
+                <div class="upload-icon">✦</div>
+                <div class="upload-label">Click to upload logo</div>
+                <div class="upload-hint">PNG or JPG</div>
+                <div class="upload-name" id="logoName" style="display:none"></div>
+                <img id="logoPreview" class="upload-preview" style="display:none" alt="">
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+
+        </div><!-- /right col -->
+
+      </div><!-- /cols -->
 
       <!-- Submit -->
       <div class="submit-area">
