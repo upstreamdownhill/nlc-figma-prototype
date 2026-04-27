@@ -1,127 +1,238 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Instagram Ad Brief — NLC</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
+    /* ── Tokens ─────────────────────────────────────────────────────────── */
+    :root {
+      --bg:           #f5f5f5;
+      --surface:      #ffffff;
+      --surface-2:    #f0f0f0;
+      --border:       #e2e2e2;
+      --text:         #252323;
+      --text-muted:   #777777;
+      --text-subtle:  #aaaaaa;
+      --accent:       #7ff86c;
+      --accent-hover: #6adf58;
+      --btn-text:     #252323;
+      --shadow:       0 1px 3px rgba(0,0,0,.08), 0 4px 16px rgba(0,0,0,.06);
+      --radius:       10px;
+      --radius-sm:    6px;
+    }
+
+    [data-theme="dark"] {
+      --bg:           #252323;
+      --surface:      #2e2c2c;
+      --surface-2:    #363333;
+      --border:       #3d3b3b;
+      --text:         #f0efef;
+      --text-muted:   #9a9898;
+      --text-subtle:  #666262;
+      --shadow:       0 1px 3px rgba(0,0,0,.3), 0 4px 16px rgba(0,0,0,.25);
+    }
+
+    /* ── Reset ──────────────────────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: #f5f5f5;
-      color: #1a1a1a;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      background: var(--bg);
+      color: var(--text);
       min-height: 100vh;
-      padding: 40px 16px 60px;
+      transition: background 0.2s, color 0.2s;
     }
 
-    .page {
-      max-width: 640px;
-      margin: 0 auto;
-    }
-
-    /* ── Header ── */
+    /* ── Header ─────────────────────────────────────────────────────────── */
     .header {
-      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 28px 24px 24px;
+      position: relative;
     }
-    .header h1 {
+
+    .logo {
+      height: 36px;
+      width: auto;
+    }
+
+    /* Inline SVG — flip text fill per theme */
+    .logo .cls-2 { fill: #252323; transition: fill 0.2s; }
+    [data-theme="dark"]  .logo .cls-2 { fill: #f0efef; }
+    [data-theme="light"] .logo .cls-2 { fill: #252323; }
+    /* Green accent always stays green */
+    .logo .cls-1 { fill: #7ff86c; }
+
+    .theme-toggle {
+      position: absolute;
+      right: 24px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 6px 12px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: border-color 0.15s, color 0.15s;
+      white-space: nowrap;
+    }
+    .theme-toggle:hover { border-color: var(--accent); color: var(--text); }
+    .theme-toggle svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+    /* ── Page layout ─────────────────────────────────────────────────────── */
+    .page {
+      max-width: 560px;
+      margin: 0 auto;
+      padding: 0 20px 60px;
+    }
+
+    .page-intro {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    .page-intro h1 {
       font-size: 22px;
       font-weight: 700;
-      color: #111;
-      letter-spacing: -0.3px;
+      letter-spacing: -0.4px;
+      color: var(--text);
+      margin-bottom: 6px;
     }
-    .header p {
+    .page-intro p {
       font-size: 13px;
-      color: #888;
-      margin-top: 4px;
+      color: var(--text-muted);
     }
 
-    /* ── Card ── */
+    /* ── Cards ───────────────────────────────────────────────────────────── */
     .card {
-      background: #fff;
-      border-radius: 10px;
-      border: 1px solid #e8e8e8;
-      padding: 24px;
-      margin-bottom: 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow);
+      transition: background 0.2s, border-color 0.2s;
     }
+
     .card-title {
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.8px;
-      color: #999;
-      margin-bottom: 18px;
+      letter-spacing: 1px;
+      color: var(--text-subtle);
+      margin-bottom: 16px;
       padding-bottom: 10px;
-      border-bottom: 1px solid #f0f0f0;
+      border-bottom: 1px solid var(--border);
     }
 
-    /* ── Fields ── */
-    .field { margin-bottom: 14px; }
+    /* ── Fields ──────────────────────────────────────────────────────────── */
+    .field { margin-bottom: 12px; }
     .field:last-child { margin-bottom: 0; }
 
     .field label {
       display: block;
       font-size: 12px;
       font-weight: 600;
-      color: #444;
+      color: var(--text-muted);
       margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
-    .field label .opt { font-weight: 400; color: #bbb; }
-    .field label .req { color: #e05; }
+    .opt { font-weight: 400; color: var(--text-subtle); text-transform: none; letter-spacing: 0; }
 
-    .field input[type="text"],
-    .field select,
-    .field textarea {
+    input[type="text"],
+    select,
+    textarea {
       width: 100%;
-      padding: 9px 12px;
-      border: 1px solid #ddd;
-      border-radius: 6px;
+      padding: 10px 12px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
       font-size: 13px;
       font-family: inherit;
-      background: #fafafa;
-      color: #1a1a1a;
+      color: var(--text);
       outline: none;
-      transition: border-color 0.15s, background 0.15s;
+      transition: border-color 0.15s, background 0.2s;
+      -webkit-appearance: none;
     }
-    .field input[type="text"]:focus,
-    .field select:focus,
-    .field textarea:focus {
-      border-color: #18a0fb;
-      background: #fff;
+    input[type="text"]:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--accent);
+      background: var(--surface);
     }
-    .field textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+    input[type="text"]::placeholder,
+    textarea::placeholder { color: var(--text-subtle); }
 
-    /* ── Two-column layout ── */
-    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    select { cursor: pointer; }
+    textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
 
-    /* ── Color row ── */
-    .color-row { display: flex; gap: 8px; align-items: center; }
-    .color-row input[type="color"] {
-      width: 40px;
-      height: 40px;
-      padding: 2px;
+    /* ── Two-column grid ─────────────────────────────────────────────────── */
+    .row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    /* ── Color picker ────────────────────────────────────────────────────── */
+    .color-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .color-swatch {
+      width: 38px;
+      height: 38px;
       flex-shrink: 0;
-      border: 1px solid #ddd;
-      border-radius: 6px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      overflow: hidden;
       cursor: pointer;
-      background: #fafafa;
+      position: relative;
     }
-    .color-row input[type="text"] { flex: 1; }
+    .color-swatch input[type="color"] {
+      position: absolute;
+      inset: -4px;
+      width: calc(100% + 8px);
+      height: calc(100% + 8px);
+      opacity: 0;
+      cursor: pointer;
+      border: none;
+      padding: 0;
+    }
+    .color-swatch-preview {
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    .color-row input[type="text"] { flex: 1; font-family: 'Courier New', monospace; font-size: 13px; }
 
-    /* ── Upload zone ── */
+    /* ── Upload zone ─────────────────────────────────────────────────────── */
     .upload-zone {
-      border: 1.5px dashed #d0d0d0;
-      border-radius: 8px;
-      padding: 20px;
+      border: 1.5px dashed var(--border);
+      border-radius: var(--radius-sm);
+      padding: 18px 16px;
       text-align: center;
       cursor: pointer;
-      color: #aaa;
-      background: #fafafa;
+      color: var(--text-subtle);
+      background: var(--surface-2);
       transition: border-color 0.15s, color 0.15s;
       position: relative;
     }
-    .upload-zone:hover { border-color: #18a0fb; color: #18a0fb; }
-    .upload-zone.has-file { border-color: #b0d6f7; background: #f0f8ff; color: #1a6ea8; }
+    .upload-zone:hover { border-color: var(--accent); color: var(--accent); }
+    .upload-zone.has-file { border-color: var(--accent); border-style: solid; }
     .upload-zone input[type="file"] {
       position: absolute;
       inset: 0;
@@ -130,202 +241,294 @@
       width: 100%;
       height: 100%;
     }
-    .upload-icon { font-size: 22px; margin-bottom: 6px; }
-    .upload-label { font-size: 12px; font-weight: 500; }
-    .upload-hint  { font-size: 11px; color: #bbb; margin-top: 3px; }
-    .upload-name  { font-size: 12px; font-weight: 600; color: #1a6ea8; margin-top: 4px; word-break: break-all; }
+    .upload-icon { font-size: 20px; margin-bottom: 4px; }
+    .upload-label { font-size: 12px; font-weight: 600; }
+    .upload-hint  { font-size: 11px; color: var(--text-subtle); margin-top: 2px; }
+    .upload-name  { font-size: 11px; font-weight: 600; color: var(--accent); margin-top: 6px; word-break: break-all; }
     .upload-preview {
       max-width: 100%;
-      max-height: 100px;
-      border-radius: 5px;
+      max-height: 90px;
+      border-radius: 4px;
       margin-top: 10px;
       object-fit: contain;
     }
+    .field-note { font-size: 11px; color: var(--text-subtle); margin-top: 5px; }
 
-    /* ── Submit ── */
-    .submit-area { margin-top: 8px; }
+    /* ── Submit ──────────────────────────────────────────────────────────── */
+    .submit-area { margin-top: 6px; }
+
     .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
       width: 100%;
       padding: 14px;
-      background: #18a0fb;
-      color: #fff;
+      background: var(--accent);
+      color: var(--btn-text);
       border: none;
-      border-radius: 8px;
+      border-radius: var(--radius-sm);
       font-size: 14px;
       font-weight: 700;
+      font-family: inherit;
       cursor: pointer;
-      letter-spacing: 0.2px;
-      transition: background 0.15s;
+      transition: background 0.15s, opacity 0.15s;
+      letter-spacing: 0.1px;
     }
-    .btn:hover:not(:disabled) { background: #0d8ee6; }
-    .btn:disabled { background: #a8d4f5; cursor: not-allowed; }
+    .btn:hover:not(:disabled) { background: var(--accent-hover); }
+    .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+    .btn svg { width: 16px; height: 16px; flex-shrink: 0; }
 
-    /* ── Status ── */
+    /* ── Status ──────────────────────────────────────────────────────────── */
     .status {
-      margin-top: 14px;
-      padding: 14px 16px;
-      border-radius: 8px;
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: var(--radius-sm);
       font-size: 13px;
       display: none;
       line-height: 1.5;
+      border: 1px solid transparent;
     }
     .status.success {
-      background: #e8f5e9;
-      color: #2e7d32;
-      border: 1px solid #c8e6c9;
       display: block;
+      background: rgba(127, 248, 108, 0.12);
+      border-color: rgba(127, 248, 108, 0.3);
+      color: #7ff86c;
     }
     .status.error {
-      background: #fdecea;
-      color: #c62828;
-      border: 1px solid #f5c6cb;
       display: block;
+      background: rgba(255, 80, 80, 0.1);
+      border-color: rgba(255, 80, 80, 0.25);
+      color: #ff6b6b;
     }
-    .status strong { font-weight: 700; }
 
-    .gif-note { font-size: 11px; color: #bbb; margin-top: 5px; }
+    /* ── Mobile ──────────────────────────────────────────────────────────── */
+    @media (max-width: 480px) {
+      .header { padding: 20px 16px 16px; }
+      .logo { height: 28px; }
+      .theme-toggle span { display: none; }
+      .theme-toggle { padding: 6px 8px; }
+      .page { padding: 0 12px 48px; }
+      .page-intro h1 { font-size: 18px; }
+      .row-2 { grid-template-columns: 1fr; gap: 10px; }
+      .card { padding: 16px; }
+    }
   </style>
 </head>
 <body>
-<div class="page">
 
-  <div class="header">
-    <h1>Instagram Ad Brief</h1>
-    <p>Fill out the brief, then apply it in Figma via the plugin.</p>
-  </div>
+  <!-- ── Header ── -->
+  <header class="header">
+    <svg class="logo" id="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 300" role="img" aria-label="NLC">
+      <path class="cls-2" d="M124,236.26v-74.26c0-18.08-6.27-26.52-20.98-26.52-16.15,0-22.9,8.92-22.9,27v73.78h-40.02V102.45h37.37v14.23h.48c8.44-13.74,20.25-18.81,36.41-18.81,24.11,0,49.67,13.5,49.67,53.04v85.35h-40.02Z"/>
+      <path class="cls-2" d="M258.29,240.36c-40.75,0-72.09-30.14-72.09-71.13s32.07-71.13,72.09-71.13,72.09,30.14,72.09,70.64-31.83,71.61-72.09,71.61ZM290.36,169.23c0-17.84-13.5-33.75-32.31-33.75-17.6,0-31.83,15.43-31.83,33.75s13.98,33.75,32.07,33.75,32.07-15.91,32.07-33.75Z"/>
+      <path class="cls-2" d="M350.63,236.26V57.84h40.02v178.42h-40.02Z"/>
+      <path class="cls-2" d="M419.58,88.22v-30.38h40.02v30.38h-40.02ZM419.58,236.26V102.45h40.02v133.81h-40.02Z"/>
+      <path class="cls-2" d="M653.93,236.26v-72.09c0-20.98-6.75-28.69-20.49-28.69-15.19,0-22.18,9.16-22.18,26.76v74.02h-40.02v-73.78c0-17.36-6.27-27-20.01-27-15.67,0-22.66,10.13-22.66,28.69v72.09h-40.02V102.45h37.37v14.23h.48c6.99-12.54,19.77-18.81,36.89-18.81s30.13,8.68,38.57,23.86c9.64-15.18,24.11-23.86,42.43-23.86,29.9,0,49.67,18.32,49.67,55.69v82.7h-40.02Z"/>
+      <path class="cls-2" d="M722.16,88.22v-30.38h40.02v30.38h-40.02ZM722.16,236.26V102.45h40.02v133.81h-40.02Z"/>
+      <path class="cls-2" d="M800.28,236.26v-103.43h-19.77v-30.38h19.77v-44.6h40.02v44.6h19.29v30.38h-19.29v103.43h-40.02Z"/>
+      <polygon class="cls-1" points="947.05 57.57 887.62 57.57 887.62 87.9 925.6 87.9 887.62 125.88 909.07 147.33 947.05 109.35 947.05 147.33 977.38 147.33 977.38 87.9 977.38 57.57 947.05 57.57"/>
+    </svg>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+      <!-- icon swapped by JS -->
+      <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="5"/>
+        <line x1="12" y1="1" x2="12" y2="3"/>
+        <line x1="12" y1="21" x2="12" y2="23"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="1" y1="12" x2="3" y2="12"/>
+        <line x1="21" y1="12" x2="23" y2="12"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+      </svg>
+      <span id="themeLabel">Light mode</span>
+    </button>
+  </header>
 
-  <form id="briefForm">
+  <!-- ── Page ── -->
+  <main class="page">
 
-    <!-- Campaign -->
-    <div class="card">
-      <div class="card-title">Campaign</div>
-      <div class="row">
-        <div class="field">
-          <label>Campaign Name <span class="req">*</span></label>
-          <input type="text" id="campaignName" name="campaignName" placeholder="Summer Sale 2025" required>
-        </div>
-        <div class="field">
-          <label>Brand Name <span class="req">*</span></label>
-          <input type="text" id="brandName" name="brandName" placeholder="Acme Co" required>
-        </div>
-      </div>
+    <div class="page-intro">
+      <h1>Instagram Ad Brief</h1>
+      <p>Fill out the brief below, then apply it in Figma via the plugin.</p>
     </div>
 
-    <!-- Brand Identity -->
-    <div class="card">
-      <div class="card-title">Brand Identity</div>
+    <form id="briefForm">
 
-      <div class="row">
-        <div class="field">
-          <label>Primary Color</label>
-          <div class="color-row">
-            <input type="color" id="primaryPicker" value="#000000">
-            <input type="text"  id="primaryColor"  name="primaryColor" value="#000000" maxlength="7" placeholder="#000000">
+      <!-- Campaign -->
+      <div class="card">
+        <div class="card-title">Campaign</div>
+        <div class="row-2">
+          <div class="field">
+            <label>Campaign Name</label>
+            <input type="text" id="campaignName" name="campaignName" placeholder="Summer Sale 2025" required>
+          </div>
+          <div class="field">
+            <label>Brand Name</label>
+            <input type="text" id="brandName" name="brandName" placeholder="Acme Co" required>
           </div>
         </div>
+      </div>
+
+      <!-- Brand Identity -->
+      <div class="card">
+        <div class="card-title">Brand Identity</div>
+
+        <div class="row-2">
+          <div class="field">
+            <label>Primary Color</label>
+            <div class="color-row">
+              <div class="color-swatch" id="primarySwatch">
+                <div class="color-swatch-preview" id="primarySwatchPreview" style="background:#000000"></div>
+                <input type="color" id="primaryPicker" value="#000000">
+              </div>
+              <input type="text" id="primaryColor" name="primaryColor" value="#000000" maxlength="7" placeholder="#000000">
+            </div>
+          </div>
+          <div class="field">
+            <label>Secondary Color</label>
+            <div class="color-row">
+              <div class="color-swatch" id="secondarySwatch">
+                <div class="color-swatch-preview" id="secondarySwatchPreview" style="background:#666666"></div>
+                <input type="color" id="secondaryPicker" value="#666666">
+              </div>
+              <input type="text" id="secondaryColor" name="secondaryColor" value="#666666" maxlength="7" placeholder="#666666">
+            </div>
+          </div>
+        </div>
+
         <div class="field">
-          <label>Secondary Color</label>
-          <div class="color-row">
-            <input type="color" id="secondaryPicker" value="#666666">
-            <input type="text"  id="secondaryColor"  name="secondaryColor" value="#666666" maxlength="7" placeholder="#666666">
+          <label>Font Family</label>
+          <select id="fontFamily" name="fontFamily">
+            <option value="Inter">Inter</option>
+            <option value="Roboto">Roboto</option>
+            <option value="Open Sans">Open Sans</option>
+            <option value="Montserrat">Montserrat</option>
+            <option value="Poppins">Poppins</option>
+            <option value="Lato">Lato</option>
+            <option value="Raleway">Raleway</option>
+            <option value="Nunito">Nunito</option>
+            <option value="DM Sans">DM Sans</option>
+            <option value="Work Sans">Work Sans</option>
+            <option value="Plus Jakarta Sans">Plus Jakarta Sans</option>
+            <option value="Archivo">Archivo</option>
+            <option value="Playfair Display">Playfair Display</option>
+            <option value="Merriweather">Merriweather</option>
+            <option value="Georgia">Georgia</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class="card">
+        <div class="card-title">Content</div>
+
+        <div class="field">
+          <label>Headline</label>
+          <input type="text" id="headline" name="headline" placeholder="Your compelling headline">
+        </div>
+
+        <div class="field">
+          <label>Body Copy <span class="opt">(optional)</span></label>
+          <textarea id="bodyText" name="bodyText" placeholder="Supporting copy…"></textarea>
+        </div>
+
+        <div class="field">
+          <label>CTA Text</label>
+          <input type="text" id="ctaText" name="ctaText" placeholder="Shop Now">
+        </div>
+      </div>
+
+      <!-- Assets -->
+      <div class="card">
+        <div class="card-title">Assets</div>
+
+        <div class="field">
+          <label>Background Image</label>
+          <div class="upload-zone" id="bgZone">
+            <input type="file" id="backgroundFile" name="backgroundFile" accept="image/png,image/jpeg,image/gif,image/webp">
+            <div class="upload-icon">🖼</div>
+            <div class="upload-label">Click to upload background</div>
+            <div class="upload-hint">PNG, JPG, GIF — fills the full artboard</div>
+            <div class="upload-name" id="bgName" style="display:none"></div>
+            <img id="bgPreview" class="upload-preview" style="display:none" alt="">
+          </div>
+          <div class="field-note">GIF imports as static in Figma (first frame only)</div>
+        </div>
+
+        <div class="field">
+          <label>Logo</label>
+          <div class="upload-zone" id="logoZone">
+            <input type="file" id="logoFile" name="logoFile" accept="image/png,image/jpeg">
+            <div class="upload-icon">✦</div>
+            <div class="upload-label">Click to upload logo</div>
+            <div class="upload-hint">PNG or JPG</div>
+            <div class="upload-name" id="logoName" style="display:none"></div>
+            <img id="logoPreview" class="upload-preview" style="display:none" alt="">
           </div>
         </div>
       </div>
 
-      <div class="field">
-        <label>Font Family</label>
-        <select id="fontFamily" name="fontFamily">
-          <option value="Inter">Inter</option>
-          <option value="Roboto">Roboto</option>
-          <option value="Open Sans">Open Sans</option>
-          <option value="Montserrat">Montserrat</option>
-          <option value="Poppins">Poppins</option>
-          <option value="Lato">Lato</option>
-          <option value="Raleway">Raleway</option>
-          <option value="Nunito">Nunito</option>
-          <option value="DM Sans">DM Sans</option>
-          <option value="Work Sans">Work Sans</option>
-          <option value="Plus Jakarta Sans">Plus Jakarta Sans</option>
-          <option value="Archivo">Archivo</option>
-          <option value="Playfair Display">Playfair Display</option>
-          <option value="Merriweather">Merriweather</option>
-          <option value="Georgia">Georgia</option>
-        </select>
-      </div>
-    </div>
-
-    <!-- Content -->
-    <div class="card">
-      <div class="card-title">Content</div>
-
-      <div class="field">
-        <label>Headline</label>
-        <input type="text" id="headline" name="headline" placeholder="Your compelling headline">
+      <!-- Submit -->
+      <div class="submit-area">
+        <button type="submit" class="btn" id="submitBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+          Send Brief to Figma
+        </button>
+        <div class="status" id="status"></div>
       </div>
 
-      <div class="field">
-        <label>Body Copy <span class="opt">(optional)</span></label>
-        <textarea id="bodyText" name="bodyText" placeholder="Supporting copy…"></textarea>
-      </div>
-
-      <div class="field">
-        <label>CTA Text</label>
-        <input type="text" id="ctaText" name="ctaText" placeholder="Shop Now">
-      </div>
-    </div>
-
-    <!-- Assets -->
-    <div class="card">
-      <div class="card-title">Assets</div>
-
-      <div class="field">
-        <label>Background Image</label>
-        <div class="upload-zone" id="bgZone">
-          <input type="file" id="backgroundFile" name="backgroundFile" accept="image/png,image/jpeg,image/gif,image/webp">
-          <div class="upload-icon">🖼</div>
-          <div class="upload-label">Click to upload background</div>
-          <div class="upload-hint">PNG, JPG, GIF — fills the full artboard</div>
-          <div class="upload-name" id="bgName" style="display:none"></div>
-          <img id="bgPreview" class="upload-preview" style="display:none" alt="">
-        </div>
-        <div class="gif-note">GIF imports as static in Figma (first frame only)</div>
-      </div>
-
-      <div class="field">
-        <label>Logo</label>
-        <div class="upload-zone" id="logoZone">
-          <input type="file" id="logoFile" name="logoFile" accept="image/png,image/jpeg">
-          <div class="upload-icon">✦</div>
-          <div class="upload-label">Click to upload logo</div>
-          <div class="upload-hint">PNG or JPG</div>
-          <div class="upload-name" id="logoName" style="display:none"></div>
-          <img id="logoPreview" class="upload-preview" style="display:none" alt="">
-        </div>
-      </div>
-    </div>
-
-    <div class="submit-area">
-      <button type="submit" class="btn" id="submitBtn">Send Brief to Figma</button>
-      <div class="status" id="status"></div>
-    </div>
-
-  </form>
-
-</div>
+    </form>
+  </main>
 
 <script>
-  // ── Color sync ────────────────────────────────────────────────────────────
+  // ── Theme ─────────────────────────────────────────────────────────────────
 
-  function bindColor(pickerId, hexId) {
-    const picker = document.getElementById(pickerId);
-    const hex    = document.getElementById(hexId);
-    picker.addEventListener('input', () => { hex.value = picker.value; });
+  const MOON_SVG = `<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>`;
+  const SUN_SVG  = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>`;
+
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    const isDark = theme === 'dark';
+    document.getElementById('themeIcon').innerHTML  = isDark ? MOON_SVG : SUN_SVG;
+    document.getElementById('themeLabel').textContent = isDark ? 'Light mode' : 'Dark mode';
+    localStorage.setItem('nlc-theme', theme);
+  }
+
+  (function () {
+    const saved = localStorage.getItem('nlc-theme') || 'dark';
+    applyTheme(saved);
+  })();
+
+  document.getElementById('themeToggle').addEventListener('click', () => {
+    const current = document.documentElement.getAttribute('data-theme');
+    applyTheme(current === 'dark' ? 'light' : 'dark');
+  });
+
+  // ── Color pickers ─────────────────────────────────────────────────────────
+
+  function bindColor(pickerId, hexId, previewId) {
+    const picker  = document.getElementById(pickerId);
+    const hex     = document.getElementById(hexId);
+    const preview = document.getElementById(previewId);
+
+    const sync = (val) => {
+      hex.value     = val;
+      picker.value  = val;
+      preview.style.background = val;
+    };
+
+    picker.addEventListener('input', () => sync(picker.value));
     hex.addEventListener('input', () => {
-      if (/^#[0-9a-fA-F]{6}$/.test(hex.value)) picker.value = hex.value;
+      if (/^#[0-9a-fA-F]{6}$/.test(hex.value)) sync(hex.value);
     });
   }
-  bindColor('primaryPicker',   'primaryColor');
-  bindColor('secondaryPicker', 'secondaryColor');
+
+  bindColor('primaryPicker',   'primaryColor',   'primarySwatchPreview');
+  bindColor('secondaryPicker', 'secondaryColor', 'secondarySwatchPreview');
 
   // ── Upload zones ──────────────────────────────────────────────────────────
 
@@ -339,9 +542,9 @@
       const file = input.files[0];
       if (!file) return;
       zone.classList.add('has-file');
-      nameEl.textContent = file.name;
-      nameEl.style.display = 'block';
-      preview.src = URL.createObjectURL(file);
+      nameEl.textContent    = file.name;
+      nameEl.style.display  = 'block';
+      preview.src           = URL.createObjectURL(file);
       preview.style.display = 'block';
     });
   }
@@ -349,44 +552,39 @@
   setupUpload('backgroundFile', 'bgZone',   'bgName',   'bgPreview');
   setupUpload('logoFile',       'logoZone', 'logoName', 'logoPreview');
 
-  // ── Status ────────────────────────────────────────────────────────────────
+  // ── Submit ────────────────────────────────────────────────────────────────
 
   function showStatus(type, html) {
     const el = document.getElementById('status');
-    el.className = 'status ' + type;
-    el.innerHTML = html;
+    el.className  = 'status ' + type;
+    el.innerHTML  = html;
   }
-
-  // ── Submit ────────────────────────────────────────────────────────────────
 
   document.getElementById('briefForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = document.getElementById('submitBtn');
-    btn.disabled = true;
-    btn.textContent = 'Sending…';
-
-    const formData = new FormData(e.target);
+    btn.disabled         = true;
+    btn.innerHTML        = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/></svg> Sending…';
 
     try {
-      const res = await fetch('/api/brief', { method: 'POST', body: formData });
+      const res  = await fetch('/api/brief', { method: 'POST', body: new FormData(e.target) });
       const json = await res.json();
 
       if (json.success) {
         showStatus('success',
-          '<strong>Brief sent!</strong> Open the Figma plugin and click ' +
-          '<em>"Load from web form"</em> to apply it to your design.'
+          '<strong>Brief sent!</strong> Open Figma, run the plugin, and click <em>"Load from web form"</em> to apply it.'
         );
-        btn.textContent = 'Send Brief to Figma';
-        btn.disabled = false;
       } else {
         throw new Error('Server returned an error.');
       }
     } catch (err) {
-      showStatus('error', '<strong>Error:</strong> ' + err.message +
-        ' — make sure the server is running (<code>npm start</code>).');
-      btn.textContent = 'Send Brief to Figma';
-      btn.disabled = false;
+      showStatus('error',
+        '<strong>Could not reach server.</strong> Run <code>npm start</code> in the project folder, then try again.'
+      );
     }
+
+    btn.disabled  = false;
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Send Brief to Figma';
   });
 </script>
 </body>
