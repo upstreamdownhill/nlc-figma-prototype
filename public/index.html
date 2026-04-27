@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Instagram Ad Brief — NLC</title>
+  <title>AI Assisted Design POC — NLC</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -108,11 +108,22 @@
       font-weight: 700;
       letter-spacing: -0.4px;
       color: var(--text);
-      margin-bottom: 6px;
+      margin-bottom: 2px;
     }
-    .page-intro p {
+    .page-intro .subtitle {
       font-size: 13px;
-      color: var(--text-muted);
+      font-weight: 500;
+      color: var(--accent);
+      margin-bottom: 0;
+    }
+
+    .section-heading {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      color: var(--text);
+      margin-bottom: 16px;
+      text-align: left;
     }
 
     /* ── Cards ───────────────────────────────────────────────────────────── */
@@ -350,11 +361,13 @@
   <main class="page">
 
     <div class="page-intro">
-      <h1>Instagram Ad Brief</h1>
-      <p>Fill out the brief below, then apply it in Figma via the plugin.</p>
+      <h1>AI Assisted Design POC</h1>
+      <p class="subtitle">Vision: MBC → Figma</p>
     </div>
 
     <form id="briefForm">
+
+      <h2 class="section-heading">Instagram Ad Brief</h2>
 
       <!-- Campaign -->
       <div class="card">
