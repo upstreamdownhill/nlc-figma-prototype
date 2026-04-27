@@ -280,14 +280,18 @@
     .field-note { font-size: 11px; color: var(--text-subtle); margin-top: 5px; }
 
     /* ── Submit ──────────────────────────────────────────────────────────── */
-    .submit-area { margin-top: 6px; }
+    .submit-area {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 6px;
+    }
 
     .btn {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
-      width: 100%;
+      width: auto;
       padding: 14px;
       background: var(--accent);
       color: var(--btn-text);
