@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Instagram Ad Setup</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 12px;
+      background: #fff;
+      color: #1a1a1a;
+      line-height: 1.4;
+    }
+
+    .container { padding: 16px 16px 24px; }
+
+    /* ── Section ── */
+    .section { margin-bottom: 20px; }
+    .section-title {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #999;
+      margin-bottom: 10px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #efefef;
+    }
+
+    /* ── Fields ── */
+    .field { margin-bottom: 10px; }
+    .field label {
+      display: block;
+      font-size: 11px;
+      font-weight: 500;
+      color: #555;
+      margin-bottom: 4px;
+    }
+    .field label .opt { color: #bbb; font-weight: 400; }
+    .field label .req { color: #e05; }
+
+    input[type="text"],
+    input[type="color"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 6px 8px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 12px;
+      font-family: inherit;
+      background: #fafafa;
+      color: #1a1a1a;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    input[type="text"]:focus,
+    select:focus,
+    textarea:focus { border-color: #18a0fb; background: #fff; }
+
+    textarea { resize: vertical; min-height: 56px; }
+
+    /* ── Color row ── */
+    .color-row { display: flex; gap: 8px; align-items: center; }
+    .color-row input[type="color"] {
+      width: 34px;
+      height: 34px;
+      padding: 2px;
+      flex-shrink: 0;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    .color-row input[type="text"] { flex: 1; }
+
+    /* ── Upload zone ── */
+    .upload-zone {
+      border: 1.5px dashed #d0d0d0;
+      border-radius: 6px;
+      padding: 12px 10px;
+      text-align: center;
+      cursor: pointer;
+      color: #999;
+      background: #fafafa;
+      transition: border-color 0.15s, color 0.15s;
+      position: relative;
+    }
+    .upload-zone:hover { border-color: #18a0fb; color: #18a0fb; }
+    .upload-zone input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+    .upload-zone .zone-label { font-size: 11px; pointer-events: none; }
+    .upload-zone .zone-name { font-weight: 600; color: #333; font-size: 11px; margin-top: 4px; word-break: break-all; }
+    .upload-preview {
+      max-width: 100%;
+      max-height: 72px;
+      border-radius: 4px;
+      margin-top: 8px;
+      object-fit: contain;
+    }
+
+    /* ── CTA button ── */
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 11px;
+      background: #18a0fb;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+      letter-spacing: 0.2px;
+    }
+    .btn:hover:not(:disabled) { background: #0d8ee6; }
+    .btn:disabled { background: #b8d4ec; cursor: not-allowed; }
+
+    /* ── Status ── */
+    .status {
+      margin-top: 12px;
+      padding: 9px 10px;
+      border-radius: 5px;
+      font-size: 12px;
+      display: none;
+      line-height: 1.4;
+    }
+    .status.progress { background: #eaf4fd; color: #1565c0; display: block; }
+    .status.success  { background: #e8f5e9; color: #2e7d32; display: block; }
+    .status.error    { background: #fdecea; color: #c62828; display: block; }
+
+    .gif-note {
+      font-size: 10px;
+      color: #bbb;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ── Campaign ── -->
+  <div class="section">
+    <div class="section-title">Campaign</div>
+
+    <div class="field">
+      <label>Campaign Name <span class="req">*</span></label>
+      <input type="text" id="campaignName" placeholder="Summer Sale 2025">
+    </div>
+
+    <div class="field">
+      <label>Brand Name <span class="req">*</span></label>
+      <input type="text" id="brandName" placeholder="Acme Co">
+    </div>
+  </div>
+
+  <!-- ── Brand Identity ── -->
+  <div class="section">
+    <div class="section-title">Brand Identity</div>
+
+    <div class="field">
+      <label>Primary Color</label>
+      <div class="color-row">
+        <input type="color" id="primaryPicker" value="#000000">
+        <input type="text"  id="primaryHex"    value="#000000" maxlength="7" placeholder="#000000">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Secondary Color</label>
+      <div class="color-row">
+        <input type="color" id="secondaryPicker" value="#666666">
+        <input type="text"  id="secondaryHex"    value="#666666" maxlength="7" placeholder="#666666">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Font Family</label>
+      <select id="fontFamily">
+        <option value="Inter">Inter</option>
+        <option value="Roboto">Roboto</option>
+        <option value="Open Sans">Open Sans</option>
+        <option value="Montserrat">Montserrat</option>
+        <option value="Poppins">Poppins</option>
+        <option value="Lato">Lato</option>
+        <option value="Raleway">Raleway</option>
+        <option value="Nunito">Nunito</option>
+        <option value="DM Sans">DM Sans</option>
+        <option value="Work Sans">Work Sans</option>
+        <option value="Plus Jakarta Sans">Plus Jakarta Sans</option>
+        <option value="Archivo">Archivo</option>
+        <option value="Playfair Display">Playfair Display</option>
+        <option value="Merriweather">Merriweather</option>
+        <option value="Georgia">Georgia</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- ── Content ── -->
+  <div class="section">
+    <div class="section-title">Content</div>
+
+    <div class="field">
+      <label>Headline</label>
+      <input type="text" id="headline" placeholder="Your compelling headline">
+    </div>
+
+    <div class="field">
+      <label>Body Copy <span class="opt">(optional)</span></label>
+      <textarea id="bodyText" placeholder="Supporting copy…"></textarea>
+    </div>
+
+    <div class="field">
+      <label>CTA Text</label>
+      <input type="text" id="ctaText" placeholder="Shop Now">
+    </div>
+  </div>
+
+  <!-- ── Assets ── -->
+  <div class="section">
+    <div class="section-title">Assets</div>
+
+    <div class="field">
+      <label>Background Image</label>
+      <div class="upload-zone" id="bgZone">
+        <input type="file" id="bgFile" accept="image/png,image/jpeg,image/gif,image/webp">
+        <div class="zone-label">Click to upload — PNG, JPG, GIF</div>
+        <div class="zone-name" id="bgName" style="display:none"></div>
+        <img id="bgPreview" class="upload-preview" style="display:none" alt="">
+      </div>
+      <div class="gif-note">GIF will import as static (Figma doesn't animate GIFs in designs)</div>
+    </div>
+
+    <div class="field">
+      <label>Logo</label>
+      <div class="upload-zone" id="logoZone">
+        <input type="file" id="logoFile" accept="image/png,image/jpeg">
+        <div class="zone-label">Click to upload — PNG, JPG</div>
+        <div class="zone-name" id="logoName" style="display:none"></div>
+        <img id="logoPreview" class="upload-preview" style="display:none" alt="">
+      </div>
+    </div>
+  </div>
+
+  <button class="btn" id="createBtn" onclick="submit()">Create Instagram Ad</button>
+  <div class="status" id="status"></div>
+
+</div>
+
+<script>
+  // ── Color picker ↔ hex text sync ─────────────────────────────────────────
+
+  function bindColor(pickerId, hexId) {
+    const picker = document.getElementById(pickerId);
+    const hex    = document.getElementById(hexId);
+
+    picker.addEventListener('input', () => { hex.value = picker.value; });
+
+    hex.addEventListener('input', () => {
+      const v = hex.value.trim();
+      if (/^#[0-9a-fA-F]{6}$/.test(v)) picker.value = v;
+    });
+  }
+
+  bindColor('primaryPicker', 'primaryHex');
+  bindColor('secondaryPicker', 'secondaryHex');
+
+  // ── File upload zones ─────────────────────────────────────────────────────
+
+  function setupUpload(inputId, nameId, previewId) {
+    const input   = document.getElementById(inputId);
+    const nameEl  = document.getElementById(nameId);
+    const preview = document.getElementById(previewId);
+
+    input.addEventListener('change', () => {
+      const file = input.files[0];
+      if (!file) return;
+
+      nameEl.textContent = file.name;
+      nameEl.style.display = 'block';
+
+      const url = URL.createObjectURL(file);
+      preview.src = url;
+      preview.style.display = 'block';
+    });
+  }
+
+  setupUpload('bgFile',   'bgName',   'bgPreview');
+  setupUpload('logoFile', 'logoName', 'logoPreview');
+
+  // ── Status display ────────────────────────────────────────────────────────
+
+  function showStatus(type, text) {
+    const el = document.getElementById('status');
+    el.className = 'status ' + type;
+    el.textContent = text;
+  }
+
+  // ── File → plain array (safe to postMessage) ──────────────────────────────
+
+  function readFile(file) {
+    return new Promise((resolve, reject) => {
+      if (!file) { resolve(null); return; }
+      const reader = new FileReader();
+      reader.onload  = (e) => resolve(Array.from(new Uint8Array(e.target.result)));
+      reader.onerror = reject;
+      reader.readAsArrayBuffer(file);
+    });
+  }
+
+  // ── Submit ────────────────────────────────────────────────────────────────
+
+  async function submit() {
+    const campaignName = document.getElementById('campaignName').value.trim();
+    const brandName    = document.getElementById('brandName').value.trim();
+
+    if (!campaignName) { showStatus('error', 'Campaign name is required.'); return; }
+    if (!brandName)    { showStatus('error', 'Brand name is required.');    return; }
+
+    const btn = document.getElementById('createBtn');
+    btn.disabled = true;
+    showStatus('progress', 'Reading files…');
+
+    const [backgroundData, logoData] = await Promise.all([
+      readFile(document.getElementById('bgFile').files[0]   || null),
+      readFile(document.getElementById('logoFile').files[0] || null),
+    ]);
+
+    parent.postMessage({
+      pluginMessage: {
+        type: 'create-ad',
+        data: {
+          campaignName,
+          brandName,
+          primaryColor:   document.getElementById('primaryHex').value.trim()   || '#000000',
+          secondaryColor: document.getElementById('secondaryHex').value.trim() || '#666666',
+          fontFamily:     document.getElementById('fontFamily').value,
+          headline:       document.getElementById('headline').value.trim(),
+          bodyText:       document.getElementById('bodyText').value.trim(),
+          ctaText:        document.getElementById('ctaText').value.trim(),
+          backgroundData,
+          logoData,
+        },
+      }
+    }, '*');
+  }
+
+  // ── Receive messages from plugin ──────────────────────────────────────────
+
+  window.onmessage = (event) => {
+    const msg = event.data.pluginMessage;
+    if (!msg) return;
+
+    const btn = document.getElementById('createBtn');
+
+    if (msg.type === 'progress') {
+      showStatus('progress', msg.text);
+    } else if (msg.type === 'success') {
+      showStatus('success', '✓ Instagram ad created! Check the new page in your file.');
+      btn.disabled = false;
+    } else if (msg.type === 'error') {
+      showStatus('error', 'Error: ' + msg.text);
+      btn.disabled = false;
+    }
+  };
+</script>
+</body>
+</html>
